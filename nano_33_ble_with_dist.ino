@@ -223,6 +223,7 @@ void loop() {
           Serial.println("Out of range!");
         } else {
           TOF_distance = (TOF_data[j + 8]) | (TOF_data[j + 9] << 8) | (TOF_data[j + 10] << 16);
+          Serial.println(micros());
           Serial.print("TOF distance is: ");
           Serial.print(TOF_distance, DEC);
           Serial.println("mm");
@@ -245,12 +246,23 @@ void loop() {
             Serial.println(TOF_signal, DEC);
             Serial.println("");
 
+            if (servoCharacteristic1.written()&&servoCharacteristic2.written()) {
+            servo_pos1=servoCharacteristic1.value();
+            servo_pos2=servoCharacteristic2.value();
+            Serial.println("characteristic received ");
+            Serial.println(servo_pos1);
+            Serial.println(servo_pos2);
+            Serial.println("");
+            }
+
+           // fprintf(test, "mks %d, real distence %f, TOF signal %d, servo 1 %d, servo 2 %d \n", micros(), realDistances[closestIndex], TOF_signal, servo_pos1, servo_pos2);
         }
         break;
       }
+      
     }
   }
-
+    /*
       if (servoCharacteristic1.written()&&servoCharacteristic2.written()) {
         servo_pos1=servoCharacteristic1.value();
         servo_pos2=servoCharacteristic2.value();
@@ -260,9 +272,11 @@ void loop() {
         Serial.println(servo_pos2);
         Serial.println("");
       }
+      */
     }
-
+    //fclose(test);
     Serial.print(F("Disconnected from central: "));
     Serial.println(central.address());
+    
   }
 }
