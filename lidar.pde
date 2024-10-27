@@ -1,7 +1,7 @@
 import processing.serial.*;
 Serial myPort;  // The serial port
 String myString = null;
-float x,y,z, angle;
+float x,y,z;
 int servo_pos1;
 int servo_pos2;
 float distance;
