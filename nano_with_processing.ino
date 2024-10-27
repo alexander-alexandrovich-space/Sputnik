@@ -1,6 +1,4 @@
 #include <ArduinoBLE.h>
-#include<stdio.h>
-
 const float realDistances[] = {
   100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0, 110.0, 111.0, 112.0, 113.0, 114.0, 115.0, 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, 128.0, 129.0,
   130.0, 131.0, 132.0, 133.0, 134.0, 135.0, 136.0, 137.0, 138.0, 139.0,
@@ -161,13 +159,11 @@ void setup() {
 
   Serial.begin(115200); 
   Serial1.begin(115200);
-
   while (!Serial);
   if (!BLE.begin()) {
-    Serial.println("starting Bluetooth® Low Energy module failed!");
+    //Serial.println("starting Bluetooth® Low Energy module failed!");
     while (1);
   }
-
   // set advertised local name and service UUID:
   BLE.setLocalName("nano 33 ble");
   BLE.setAdvertisedService(servo_service);
@@ -185,8 +181,6 @@ void setup() {
 
   // start advertising
   BLE.advertise();
-
-  Serial.println("nano 33 ble");
 }
 
 bool verifyCheckSum(unsigned char data[], unsigned char len) {
@@ -203,10 +197,7 @@ void loop() {
 
   // if a central is connected to peripheral:
   if (central) {
-    Serial.print("Connected to central: ");
     // print the central's MAC address:
-    Serial.println(central.address());
-
     // while the central is still connected to peripheral:
     while (central.connected()) {
       // if the remote device wrote to the characteristic,
@@ -219,14 +210,9 @@ void loop() {
     }
     for (int j = 0; j < 16; j++) {
       if (TOF_data[j] == TOF_header[0] && TOF_data[j + 1] == TOF_header[1] && TOF_data[j + 2] == TOF_header[2] && verifyCheckSum(&TOF_data[j], TOF_length)) {
-        if (((TOF_data[j + 12]) | (TOF_data[j + 13] << 8)) == 0) {
-          Serial.println("Out of range!");
-        } else {
+        if (((TOF_data[j + 12]) | (TOF_data[j + 13] << 8)) != 0) 
+         {
           TOF_distance = (TOF_data[j + 8]) | (TOF_data[j + 9] << 8) | (TOF_data[j + 10] << 16);
-          Serial.println(micros());
-          Serial.print("TOF distance is: ");
-          Serial.print(TOF_distance, DEC);
-          Serial.println("mm");
           // Find closest match in measuredDistances
           int closestIndex = 0;
           float smallestDifference = abs(measuredDistances[0] - TOF_distance);
@@ -238,21 +224,21 @@ void loop() {
             }
           }
           // Output corresponding real distance
-            Serial.print("Corresponding real distance is: ");
-            Serial.println(realDistances[closestIndex]);
-
             TOF_signal = (TOF_data[j + 12]) | (TOF_data[j + 13] << 8);
-            Serial.print("TOF signal is: ");
-            Serial.println(TOF_signal, DEC);
-            //Serial.println("");
-
             if (servoCharacteristic1.written()&&servoCharacteristic2.written()) {
             servo_pos1=servoCharacteristic1.value();
             servo_pos2=servoCharacteristic2.value();
-            Serial.println("characteristic received ");
+            /*
             Serial.println(servo_pos1);
             Serial.println(servo_pos2);
-            Serial.println("");
+            Serial.print(TOF_distance, DEC);
+            */
+            Serial.print(servo_pos1);
+            Serial.print(",");
+            Serial.print(servo_pos2);
+            Serial.print(",");
+            Serial.print(realDistances[closestIndex]);
+            Serial.println(",");
             }
 
            // fprintf(test, "mks %d, real distence %f, TOF signal %d, servo 1 %d, servo 2 %d \n", micros(), realDistances[closestIndex], TOF_signal, servo_pos1, servo_pos2);
