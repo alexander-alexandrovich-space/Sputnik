@@ -65,6 +65,9 @@ for(servo_pos1=20 ; servo_pos1<=880; servo_pos1+=accuracy){
         Serial.print(",");
         Serial.println(read_pos2);
       }
+      servo_pos1+=accuracy;
+      servo.WritePos(1,servo_pos1,0,300);
+      read_pos1=servo.ReadPos(1);
       while(servo_pos2>=15){
         servo.WritePos(2,20,0,300);
         servo_pos2=servo.ReadPos(2);
@@ -73,8 +76,32 @@ for(servo_pos1=20 ; servo_pos1<=880; servo_pos1+=accuracy){
         Serial.println(servo_pos2);
       }
     }
+// два фора
 
+int read_pos1=-1, read_pos2=-1;
 
+for(servo_pos1=20 ; servo_pos1<=880; servo_pos1+=accuracy){
+      servo.WritePos(1,servo_pos1,0,300);
+      read_pos1=servo.ReadPos(1);
+      
+      for(servo_pos2=20; servo_pos2<=880; servo_pos2+=accuracy){
+        servo.WritePos(2, servo_pos2, 0, 300);
+        read_pos2=servo.ReadPos(2);
+        Serial.print(read_pos1);
+        Serial.print(",");
+        Serial.println(read_pos2);
+      }
+      servo_pos1+=accuracy;
+      servo.WritePos(1,servo_pos1,0,300);
+      read_pos1=servo.ReadPos(1);
+      for(servo_pos2=880; servo_pos2>=20; servo_pos2-=accuracy){
+        servo.WritePos(2, servo_pos2, 0, 300);
+        read_pos2=servo.ReadPos(2);
+        Serial.print(read_pos1);
+        Serial.print(",");
+        Serial.println(read_pos2);
+      }
+    }
 
 
 
