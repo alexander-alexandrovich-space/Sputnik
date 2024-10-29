@@ -16,7 +16,7 @@ please change the appropriate position, speed and delay parameters.
 SCSCL servo;
 int servo_pos1=-1;
 int servo_pos2=-2;
-int accuracy=5;
+int accuracy=50;
 void setup()
 {
   Serial.begin(115200);
@@ -37,19 +37,19 @@ for(servo_pos1=20 ; servo_pos1<=880; servo_pos1+=accuracy){
       read_pos1=servo.ReadPos(1);
       
       for(servo_pos2=20; servo_pos2<=880; servo_pos2+=accuracy){
-        servo.WritePos(2, servo_pos2, 0, 1000);
-        delay(20);
+        servo.WritePos(2, servo_pos2, 0, 1500);
+        delay(70);
         read_pos2=servo.ReadPos(2);
         Serial.print(read_pos1);
         Serial.print(",");
         Serial.println(read_pos2);
       }
       servo_pos1+=accuracy;
-      servo.WritePos(1,servo_pos1,0,300);
+      servo.WritePos(1,servo_pos1,0,1500);
       read_pos1=servo.ReadPos(1);
       for(servo_pos2=880; servo_pos2>=20; servo_pos2-=accuracy){
-        servo.WritePos(2, servo_pos2, 0, 1000);
-        delay(20);
+        servo.WritePos(2, servo_pos2, 0, 1500);
+        delay(70);
         read_pos2=servo.ReadPos(2);
         Serial.print(read_pos1);
         Serial.print(",");
