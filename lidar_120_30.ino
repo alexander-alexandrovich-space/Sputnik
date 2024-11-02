@@ -23,8 +23,8 @@ void setup()
   Serial.begin(115200);
   Serial1.begin(1000000, SERIAL_8N1, S_RXD, S_TXD);
   servo.pSerial = &Serial1;
-  servo.WritePos(1,20,0,2000);
-  servo.WritePos(2,20,0,2000);
+  servo.WritePos(1,200,0,2000);
+  servo.WritePos(2,340,0,2000);
   delay(1000);
  
 }
@@ -34,8 +34,10 @@ void loop()
   int read_pos1=-1, read_pos2=-1;
   int servo_speed1=100;
 
+
+
 for(servo_pos2=347 ; servo_pos2<=633; servo_pos2+=accuracy_vert){
-      servo.WritePos(2,servo_pos2,0,300);
+      servo.WritePos(2,servo_pos2,0,2000);
       read_pos2=servo.ReadPos(2);
       
       for(servo_pos1=203; servo_pos1<=777; servo_pos1+=accuracy_gor){
@@ -47,7 +49,7 @@ for(servo_pos2=347 ; servo_pos2<=633; servo_pos2+=accuracy_vert){
         Serial.println(read_pos2);
       }
       servo_pos2+=accuracy_vert;
-      servo.WritePos(2,servo_pos2,0,300);
+      servo.WritePos(2,servo_pos2,0,2000);
       read_pos2=servo.ReadPos(2);
       for(servo_pos1=777; servo_pos1>=203; servo_pos1-=accuracy_gor){
         servo.WritePos(1, servo_pos1, 0, servo_speed1);
