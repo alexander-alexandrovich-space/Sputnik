@@ -22,19 +22,19 @@ void loop()
     servo_pos2=servo.ReadPos(2);
     while(1){
       //servo.WritePosEx(1, 783, 2000, 60);//Servo(ID1) moves at max speed=1500, moves to position=20.
-      servo.WritePos(1, 783, 0, 300);
+      servo.WritePos(1, 784, 0, 300);
       servo_pos1=servo.ReadPos(1);
       Serial.println(servo_pos1);
-      if(servo_pos1==777 || servo_pos1==783){break;}
+      if(servo_pos1==777){break;}
       
     }
    // delay(1000);
     while(1){
       //servo.WritePosEx(1, 197, 2000, 60);//Servo(ID1) moves at max speed=1500, moves to position=1000.
-      servo.WritePos(1, 197, 0, 300);
+      servo.WritePos(1, 196, 0, 300);
       servo_pos1=servo.ReadPos(1);
       Serial.println(servo_pos1);
-    if(servo_pos1==203){break;}
+    if(servo_pos1==204){break;}
 
     }
   
